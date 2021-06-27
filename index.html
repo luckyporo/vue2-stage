@@ -18,13 +18,13 @@
       data() {
         return {
           name: 'luckyporo',
-          a: {
-            b: 2
-          }
+          arr: [1, 2, 3],
+          objArr: [{name: 1}, {name: 2}]
         }
       }
     })
-    console.log(vm.name)
+    // console.log(vm.name)
+    vm.arr.push(4);
   </script>
 </body>
 </html>

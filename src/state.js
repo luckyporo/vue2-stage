@@ -24,7 +24,7 @@ function initData (vm) {
   // 劫持data中的所有数据 Object.definedProperty
   // 此时vm和data没有任何关系 需要使用_data将二者关联起来
   data = vm._data = isFunction(data) ? data.call(vm) : data
-  // 做一个proxy 将data.key映射到_data.key
+  // 做一个proxy 将vm.key映射到vm._data.key
   for (const key in data) {
     proxy(vm, '_data', key)
   }
