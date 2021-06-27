@@ -37,7 +37,7 @@ function defineReactive (data, key, value) {
   observe(value) // value如果是对象需要继续观测劫持 递归 性能差
   Object.defineProperty(data, key, {
     get () {
-      console.log('get', data, key)
+      // console.log('get', data, key)
       return value
     },
     set (newVal) {
