@@ -10,19 +10,22 @@ function gen (el) {
       // hello{{name}}world -> 'hello' + name + 'world'
       const tokens = []
       let match
-      let lastIndex = defaultTagRE.lastIndex = 0
+      let index
+      let lastIndex = defaultTagRE.lastIndex = 0 // 正则bug 上面test过一次后必须强制清零lastIndex否则再执行exec拿到的永远是空数组
       // eslint-disable-next-line no-cond-assign
-      while (match = defaultTagRE.exec(text)) {
-        // console.log(match)
-        const index = match.index
-        if (index > lastIndex) {
+      while (match = defaultTagRE.exec(text)) { // 是否匹配的上正则
+        console.log(match)
+        index = match.index // {起始索引位置
+        if (index > lastIndex) { // 如果起始位置索引大于上一次匹配最后位置的索引证明此时是纯字符串
           tokens.push(JSON.stringify(text.slice(lastIndex, index)))
         }
-        tokens.push(`_s(${match[1].trim()})`)
+        tokens.push(`_s(${match[1].trim()})`) // 将匹配到的变量trim后包装_s放入数组
         lastIndex = index + match[0].length
-        if (lastIndex < text.length) {
-          tokens.push(JSON.stringify(text.slice(lastIndex)))
-        }
+        console.log(lastIndex)
+      }
+      // 如果循环完毕正则匹配后 最后的索引位置小于整个字符串长度 证明}之后的都是纯字符串 需要放入数组
+      if (lastIndex < text.length) {
+        tokens.push(JSON.stringify(text.slice(lastIndex)))
       }
       // console.log(tokens)
       return `_v(${tokens.join('+')})`
